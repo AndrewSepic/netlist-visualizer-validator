@@ -1,34 +1,37 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useState, useEffect } from 'react'
+import Sidebar from './components/Sidebar'
+import UploadSurface from './components/UploadSurface'
+import UserToggle from './components/UserToggle'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+
+	function handleUser(value: string) {
+	}
+
+	useEffect(() => {
+
+
+	},[])
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className="w-full h-full flex flex-col">
+		{/* Header */}
+		<div className="flex w-full px-6 py-4 border-b border-slate-200 justify-between">
+			<h2 className="text-4xl font-light">Netlist <span className="font-medium text-[#42e2b8]">V²</span></h2>
+			<UserToggle onUserChange={handleUser}/>
+		</div>
+
+		{/* Main Layout */}
+		<div className="flex flex-1">
+			<Sidebar />
+			<UploadSurface/>
+		</div>
+
+		
+
+
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
   )
 }
 
