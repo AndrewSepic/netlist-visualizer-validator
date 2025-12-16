@@ -33,9 +33,21 @@ const UserToggle = ({onUserChange}: UserToggleProps) => {
 		onUserChange(user?._id)
 	}
 
+	// Add this useEffect after your existing fetch useEffect:
+	useEffect(() => {
+		// Auto-select Andrew when users are loaded
+		if (users.length > 0 && !selectedUser) {
+			const andrew = users.find(u => u.username.toLowerCase() === 'andrew');
+			if (andrew) {
+				setSelectedUser(andrew);
+				onUserChange(andrew._id);  // Notify parent component
+			}
+		}
+	}, [users, selectedUser]);  // Run when users change
+
 	return (
-		<div className="p-4">
-			<span className="text-slate-500 text-sm">Toggle User</span>
+		<div>
+			{/* <span className="text-slate-500 text-sm">Toggle User</span> */}
 			<select 
 				value={selectedUser?.username || ""} 
 				onChange={(e) => handleUserSelect(e.target.value)}
