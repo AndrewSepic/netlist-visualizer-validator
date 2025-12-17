@@ -69,7 +69,7 @@ function App() {
 		</div>
 
 		{/* Main Layout */}
-		<div className="flex flex-1">
+		<div className="flex flex-1 overflow-hidden">
 			<Sidebar 
 				netLists={netLists} 
 				onNetlistSelect={handleNetlistSelect}
