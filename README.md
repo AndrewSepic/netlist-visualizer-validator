@@ -39,7 +39,7 @@ This application runs validation & simple visualizations on netlist files. Netli
 4. Access the application at [http://localhost:5173](http://localhost:5173)
 
 ## Users
-To simplify user management & authentication for Demo purposes, 3 users are automatically generated in the database on a fresh project start (`docker-compose up`).  The users are loaded into the front end when the app builds and you may toggle users via a select element in the top right.
+To simplify user management & authentication for Demo purposes, 3 users are automatically generated in the database on a fresh project start.  The users are loaded into the front end when the app builds and you may toggle users via a select element in the top right.
 
 ## Runtime
 The application runs on Node.js 20 (LTS) and is fully containerized via Docker.
