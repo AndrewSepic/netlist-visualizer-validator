@@ -37,7 +37,6 @@ function App() {
 	}
 
 	useEffect(() => {
-		
 		async function fetchNetLists() {
 			try {
 				if(!activeUserId) return
@@ -56,42 +55,38 @@ function App() {
 				console.error("Error fetching netlists: ", err)
 			}
 		}
-
+		setSelectedNetlist(null)
 		fetchNetLists()
 	},[activeUserId, refreshTrigger])
 
-  return (
-      <div className="w-full h-full flex flex-col">
-		{/* Header */}
-		<div className="flex w-full px-6 py-6 border-b border-slate-200 justify-between items-center">
-			<h2 className="text-4xl font-light">Netlist <span className="font-medium text-[#42e2b8]">V²</span></h2>
-			<UserToggle onUserChange={handleUser}/>
-		</div>
+  	return (
+     	 <div className="w-full h-full flex flex-col">
+			{/* Header */}
+			<div className="flex w-full px-6 py-6 border-b border-slate-200 justify-between items-center">
+				<h2 className="text-4xl font-light">Netlist <span className="font-medium text-[#42e2b8]">V²</span></h2>
+				<UserToggle onUserChange={handleUser}/>
+			</div>
 
-		{/* Main Layout */}
-		<div className="flex flex-1 overflow-hidden">
-			<Sidebar 
-				netLists={netLists} 
-				onNetlistSelect={handleNetlistSelect}
-				selectedNetlistId={selectedNetlist?._id}
-			/>
-			
-			{/* Show visualization if netlist selected, otherwise show upload */}
-			{selectedNetlist ? (
-				<NetlistSVG 
-					selectedNetlist={selectedNetlist}
-					onBack={() => setSelectedNetlist(null)}
+			{/* Main Layout */}
+			<div className="flex flex-1 overflow-hidden">
+				<Sidebar 
+					netLists={netLists} 
+					onNetlistSelect={handleNetlistSelect}
+					selectedNetlistId={selectedNetlist?._id}
 				/>
-			) : (
-				<UploadSurface userId={activeUserId} onNetlistUploaded={triggerNetlistRefresh}/>
-			)}
+				
+				{/* Show visualization if netlist selected, otherwise show upload */}
+				{selectedNetlist ? (
+					<NetlistSVG 
+						selectedNetlist={selectedNetlist}
+						onBack={() => setSelectedNetlist(null)}
+					/>
+				) : (
+					<UploadSurface userId={activeUserId} onNetlistUploaded={triggerNetlistRefresh}/>
+				)}
+			</div>
 		</div>
-
-		
-
-
-      </div>
-  )
+	)
 }
 
 export default App

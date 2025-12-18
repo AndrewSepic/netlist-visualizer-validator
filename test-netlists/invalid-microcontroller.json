@@ -1,0 +1,59 @@
+{
+  "name": "Incomplete GND Circuit",
+  "components": [
+    {
+      "id": "U1",
+      "name": "ESP32",
+      "type": "microcontroller",
+      "pins": [
+        {"id": "1", "name": "VCC"},
+        {"id": "2", "name": "GND"},
+        {"id": "3", "name": "GPIO5"}
+      ]
+    },
+    {
+      "id": "LED1",
+      "name": "Power LED",
+      "type": "LED",
+      "pins": [
+        {"id": "1", "name": "Anode"},
+        {"id": "2", "name": "Cathode"}
+      ]
+    },
+    {
+      "id": "J1",
+      "name": "USB Connector",
+      "type": "connector",
+      "pins": [
+        {"id": "1", "name": "VCC"},
+        {"id": "2", "name": "GND"}
+      ]
+    },
+    {
+      "id": "R1",
+      "name": "Pull-up Resistor",
+      "type": "resistor",
+      "pins": [
+        {"id": "1", "name": "Pin1"},
+        {"id": "2", "name": "Pin2"}
+      ]
+    }
+  ],
+  "nets": [
+    {
+      "id": "GND",
+      "name": "Ground",
+      "connections": [
+        {"componentId": "U1", "pinId": "2"}
+      ]
+    },
+    {
+      "id": "VCC",
+      "name": "Power",
+      "connections": [
+        {"componentId": "J1", "pinId": "1"},
+        {"componentId": "U1", "pinId": "1"}
+      ]
+    }
+  ]
+}

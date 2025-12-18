@@ -1,0 +1,78 @@
+{
+  "name": "Arduino LED Blink Circuit",
+  "components": [
+    {
+      "id": "U1",
+      "name": "Arduino Nano",
+      "type": "microcontroller",
+      "pins": [
+        {"id": "1", "name": "VCC"},
+        {"id": "2", "name": "GND"},
+        {"id": "13", "name": "D13"},
+        {"id": "14", "name": "D12"}
+      ]
+    },
+    {
+      "id": "LED1",
+      "name": "Status LED",
+      "type": "LED",
+      "pins": [
+        {"id": "1", "name": "Anode"},
+        {"id": "2", "name": "Cathode"}
+      ]
+    },
+    {
+      "id": "R1",
+      "name": "Current Limiting Resistor",
+      "type": "resistor",
+      "pins": [
+        {"id": "1", "name": "Pin1"},
+        {"id": "2", "name": "Pin2"}
+      ]
+    },
+    {
+      "id": "J1",
+      "name": "Power Connector",
+      "type": "connector",
+      "pins": [
+        {"id": "1", "name": "VCC"},
+        {"id": "2", "name": "GND"}
+      ]
+    }
+  ],
+  "nets": [
+    {
+      "id": "VCC",
+      "name": "Power Supply",
+      "connections": [
+        {"componentId": "J1", "pinId": "1"},
+        {"componentId": "U1", "pinId": "1"}
+      ]
+    },
+    {
+      "id": "GND",
+      "name": "Ground",
+      "connections": [
+        {"componentId": "J1", "pinId": "2"},
+        {"componentId": "U1", "pinId": "2"},
+        {"componentId": "LED1", "pinId": "2"}
+      ]
+    },
+    {
+      "id": "LED_CTRL",
+      "name": "LED Control Signal",
+      "connections": [
+        {"componentId": "U1", "pinId": "13"},
+        {"componentId": "R1", "pinId": "1"}
+      ]
+    },
+    {
+      "id": "LED_ANODE",
+      "name": "LED Anode Net",
+      "connections": [
+        {"componentId": "R1", "pinId": "2"},
+        {"componentId": "LED1", "pinId": "1"}
+      ]
+    }
+  ]
+}

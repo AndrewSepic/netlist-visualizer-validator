@@ -1,4 +1,3 @@
-
 import {useState, useEffect } from 'react'
 
 interface User {
@@ -21,33 +20,29 @@ const UserToggle = ({onUserChange}: UserToggleProps) => {
 		fetch('/api/users')
 			.then(res => res.json())
 			.then(setUsers)
-			.catch(err => console.log("errors", err))
+			.catch(err => console.error("errors", err))
 	}, []);
 
 	const handleUserSelect = (username: string) => {
-		console.log("username:", username, "users:", users)
 		const user = users.find(u => u.username.toLowerCase() === username.toLocaleLowerCase())
-		console.log("user", user)
 		setSelectedUser(user || null)
-
 		onUserChange(user?._id)
 	}
 
-	// Add this useEffect after your existing fetch useEffect:
 	useEffect(() => {
 		// Auto-select Andrew when users are loaded
+		// Helper function to get a user selected for use of the app
 		if (users.length > 0 && !selectedUser) {
 			const andrew = users.find(u => u.username.toLowerCase() === 'andrew');
 			if (andrew) {
 				setSelectedUser(andrew);
-				onUserChange(andrew._id);  // Notify parent component
+				onUserChange(andrew._id); 
 			}
 		}
-	}, [users, selectedUser]);  // Run when users change
+	}, [users, selectedUser]); 
 
 	return (
 		<div>
-			{/* <span className="text-slate-500 text-sm">Toggle User</span> */}
 			<select 
 				value={selectedUser?.username || ""} 
 				onChange={(e) => handleUserSelect(e.target.value)}
@@ -57,12 +52,12 @@ const UserToggle = ({onUserChange}: UserToggleProps) => {
 			>
 				<option value="">Select a user...</option>
 				{users.length > 0 && users.map(user => (
-						<option 
-							key={user._id}
-							value={user.username}
-							>{user.username}</option>
+					<option 
+						key={user._id}
+						value={user.username}
+						>{user.username}
+					</option>
 				))}
-				
 				
 			</select>
 		</div>

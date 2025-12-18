@@ -35,7 +35,6 @@ const createEdgesFromNet = (net: Net): PureGraphEdge[] => {
   const edges: PureGraphEdge[] = [];
   const connectedComponents = net.connections.map(conn => conn.componentId);
   
-  // Chain components together
   for (let i = 0; i < connectedComponents.length - 1; i++) {
     edges.push({
       id: `${net.id}-${i}`,
@@ -48,9 +47,9 @@ const createEdgesFromNet = (net: Net): PureGraphEdge[] => {
   return edges;
 };
 
-// Step 1: Create pure graph (no positioning)
+// Create pure graph (no positioning)
 export const createGraph = (netlist: FullNetlist): PureGraph => {
-  // Process components into styled nodes (no positions yet)
+  // Process components into nodes
   const nodes: PureGraphNode[] = netlist.components.map(component => ({
     id: component.id,
     component,
@@ -65,16 +64,12 @@ export const createGraph = (netlist: FullNetlist): PureGraph => {
   return { nodes, edges };
 };
 
-// Step 2: Layout algorithm - simple grid
-export const layoutGraph = (pureGraph: PureGraph, layoutType: 'grid' | 'circle' = 'grid'): Graph => {
-  if (layoutType === 'grid') {
-    return layoutGridGraph(pureGraph);
-  } else {
-    return layoutCircleGraph(pureGraph);
-  }
+// Process Layout algorithm - simple grid
+export const layoutGraph = (pureGraph: PureGraph): Graph => {
+	return layoutGridGraph(pureGraph);
 };
 
-// Grid layout implementation
+// Grid layout 
 const layoutGridGraph = (pureGraph: PureGraph): Graph => {
   const nodeCount = pureGraph.nodes.length;
   const cols = Math.ceil(Math.sqrt(nodeCount));
@@ -103,81 +98,6 @@ const layoutGridGraph = (pureGraph: PureGraph): Graph => {
     const x2 = targetNode?.position.x || 0;
     const y2 = targetNode?.position.y || 0;
     
-    // Find parallel edges (same source and target)
-    const parallelEdges = allEdges.filter(e => 
-      (e.source === edge.source && e.target === edge.target) ||
-      (e.source === edge.target && e.target === edge.source)
-    );
-    
-    // If there are multiple parallel edges, offset them
-    let offsetX = 0;
-    let offsetY = 0;
-    if (parallelEdges.length > 1) {
-      const edgeIndex = parallelEdges.indexOf(edge);
-      const offsetAmount = 10; // pixels
-      
-      // Calculate perpendicular offset
-      const dx = x2 - x1;
-      const dy = y2 - y1;
-      const length = Math.sqrt(dx * dx + dy * dy);
-      
-      if (length > 0) {
-        // Perpendicular vector
-        const perpX = -dy / length;
-        const perpY = dx / length;
-        
-        // Offset each parallel edge differently
-        const offset = (edgeIndex - (parallelEdges.length - 1) / 2) * offsetAmount;
-        offsetX = perpX * offset;
-        offsetY = perpY * offset;
-      }
-    }
-    
-    return {
-      ...edge,
-      path: {
-        x1: x1 + offsetX,
-        y1: y1 + offsetY,
-        x2: x2 + offsetX,
-        y2: y2 + offsetY
-      }
-    };
-  });
-
-  return { nodes, edges };
-};
-
-// Circle layout implementation
-const layoutCircleGraph = (pureGraph: PureGraph): Graph => {
-  const nodeCount = pureGraph.nodes.length;
-  const radius = Math.max(150, nodeCount * 30);
-  const centerX = 400;
-  const centerY = 300;
-  
-  // Position nodes in circle
-  const nodes: GraphNode[] = pureGraph.nodes.map((node, index) => {
-    const angle = (index * 2 * Math.PI) / nodeCount;
-    
-    return {
-      ...node,
-      position: {
-        x: centerX + radius * Math.cos(angle),
-        y: centerY + radius * Math.sin(angle)
-      }
-    };
-  });
-
-  // Create positioned edges with parallel edge detection
-  const edges: GraphEdge[] = pureGraph.edges.map((edge, index, allEdges) => {
-    const sourceNode = nodes.find(n => n.id === edge.source);
-    const targetNode = nodes.find(n => n.id === edge.target);
-    
-    const x1 = sourceNode?.position.x || 0;
-    const y1 = sourceNode?.position.y || 0;
-    const x2 = targetNode?.position.x || 0;
-    const y2 = targetNode?.position.y || 0;
-    
-    // Find parallel edges (same source and target)
     const parallelEdges = allEdges.filter(e => 
       (e.source === edge.source && e.target === edge.target) ||
       (e.source === edge.target && e.target === edge.source)

@@ -13,3 +13,18 @@ html, body {
 	margin: 0;
 	padding: 0;
 }
+
+@keyframes slideUpFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slideUpFadeIn {
+  animation: slideUpFadeIn 0.3s ease-out;
+}

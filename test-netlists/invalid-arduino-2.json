@@ -1,0 +1,41 @@
+{
+  "name": "Invalid References Circuit",
+  "components": [
+    {
+      "id": "U1",
+      "name": "Arduino Nano",
+      "type": "microcontroller",
+      "pins": [
+        {"id": "1", "name": "VCC"},
+        {"id": "2", "name": "GND"}
+      ]
+    },
+    {
+      "id": "LED1",
+      "name": "Status LED",
+      "type": "LED",
+      "pins": [
+        {"id": "1", "name": "Anode"},
+        {"id": "2", "name": "Cathode"}
+      ]
+    }
+  ],
+  "nets": [
+    {
+      "id": "GND",
+      "name": "Ground",
+      "connections": [
+        {"componentId": "U1", "pinId": "2"},
+        {"componentId": "LED1", "pinId": "2"}
+      ]
+    },
+    {
+      "id": "LED_CTRL",
+      "name": "LED Control",
+      "connections": [
+        {"componentId": "R1", "pinId": "1"},
+        {"componentId": "U1", "pinId": "99"}
+      ]
+    }
+  ]
+}

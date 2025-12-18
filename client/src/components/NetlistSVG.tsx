@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { FullNetlist, Graph, GraphNode, GraphEdge } from '../types';
 import { createGraph, layoutGraph } from './utils';
 
@@ -8,10 +8,11 @@ interface NetlistSVGProps {
 }
 
 const NetlistSVG = ({ selectedNetlist, onBack }: NetlistSVGProps) => {
-	// Create and layout graph using the new architecture
+	
+	// Create and layout graph
 	const graph: Graph = useMemo(() => {
 		const pureGraph = createGraph(selectedNetlist);
-		return layoutGraph(pureGraph, 'grid');
+		return layoutGraph(pureGraph);
 	}, [selectedNetlist]);
 
 	// Render a component node based on its style
@@ -55,7 +56,6 @@ const NetlistSVG = ({ selectedNetlist, onBack }: NetlistSVGProps) => {
 						y={position.y + 4}
 						textAnchor="middle"
 						fontSize="10"
-						fill={style.textColor}
 						fontWeight="500"
 					>
 						{component.name}
@@ -65,7 +65,8 @@ const NetlistSVG = ({ selectedNetlist, onBack }: NetlistSVGProps) => {
 		}
 	};
 
-	// Render an edge connection
+	// Render an edge connection 
+	// stroked connection for GND's
 	const renderEdge = (edge: GraphEdge) => {
 		const isGND = edge.net.id.toUpperCase() === 'GND';
 		
@@ -85,7 +86,7 @@ const NetlistSVG = ({ selectedNetlist, onBack }: NetlistSVGProps) => {
 
 	return (
 		<div className="w-3/4 p-6 bg-gray-50 flex flex-col">
-			<div className="flex-shrink-0 mb-4 flex justify-between items-center">
+			<div className="shrink-0 mb-4 flex justify-between items-center">
 				<div>
 					<h3 className="text-2xl font-medium">{selectedNetlist.name}</h3>
 					<div className="flex items-center gap-6">
@@ -117,8 +118,8 @@ const NetlistSVG = ({ selectedNetlist, onBack }: NetlistSVGProps) => {
 				</button>
 			</div>
 			
-			{/* SVG Visualization Area */}
-			<div className="flex-grow min-h-0 bg-white border border-gray-200 rounded-lg">
+			
+			<div className="grow min-h-0 bg-white border border-gray-200 rounded-lg">
 				<svg className="w-full h-full" viewBox="0 0 666 500">
 					{/* Render edges first (behind nodes) */}
 					{graph.edges.map(renderEdge)}

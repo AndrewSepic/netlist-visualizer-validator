@@ -1,0 +1,69 @@
+{
+  "name": "5V to 3.3V Voltage Divider",
+  "components": [
+    {
+      "id": "R1",
+      "name": "10K Upper Resistor", 
+      "type": "resistor",
+      "pins": [
+        {"id": "1", "name": "Pin1"},
+        {"id": "2", "name": "Pin2"}
+      ]
+    },
+    {
+      "id": "R2",
+      "name": "6.8K Lower Resistor",
+      "type": "resistor", 
+      "pins": [
+        {"id": "1", "name": "Pin1"},
+        {"id": "2", "name": "Pin2"}
+      ]
+    },
+    {
+      "id": "J1",
+      "name": "Input Power Connector",
+      "type": "connector",
+      "pins": [
+        {"id": "1", "name": "VIN"},
+        {"id": "2", "name": "GND"}
+      ]
+    },
+    {
+      "id": "J2", 
+      "name": "Output Connector",
+      "type": "connector",
+      "pins": [
+        {"id": "1", "name": "VOUT"},
+        {"id": "2", "name": "GND"}
+      ]
+    }
+  ],
+  "nets": [
+    {
+      "id": "VIN",
+      "name": "5V Input",
+      "connections": [
+        {"componentId": "J1", "pinId": "1"},
+        {"componentId": "R1", "pinId": "1"}
+      ]
+    },
+    {
+      "id": "VMID",
+      "name": "Voltage Divider Middle",
+      "connections": [
+        {"componentId": "R1", "pinId": "2"},
+        {"componentId": "R2", "pinId": "1"},
+        {"componentId": "J2", "pinId": "1"}
+      ]
+    },
+    {
+      "id": "GND",
+      "name": "Ground", 
+      "connections": [
+        {"componentId": "J1", "pinId": "2"},
+        {"componentId": "R2", "pinId": "2"},
+        {"componentId": "J2", "pinId": "2"}
+      ]
+    }
+  ]
+}

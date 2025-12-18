@@ -6,6 +6,7 @@ interface SidebarProps {
 	onNetlistSelect: (netlistId: string) => void;
 	selectedNetlistId?: string;
 }
+
 const Sidebar = ({netLists, onNetlistSelect, selectedNetlistId}: SidebarProps) => {
 
 	return (
@@ -15,8 +16,8 @@ const Sidebar = ({netLists, onNetlistSelect, selectedNetlistId}: SidebarProps) =
 			{netLists.length > 0 && netLists.map((list: NetlistSummary) => (
 				<li 
 					key={list._id}
-					className={`list-none my-2 p-2 hover:bg-[#bcffed] transition rounded cursor-pointer ${
-						selectedNetlistId === list._id ? 'bg-[#42e2b8] text-white' : ''
+					className={`list-none my-2 p-2 border-[#42e2b8] hover:border-l-12 transition-all rounded cursor-pointer ${
+						selectedNetlistId === list._id ? 'border-l-12 bg-white shadow' : ''
 					}`}
 					onClick={() => onNetlistSelect(list._id)}>
 					<div className="font-bold">{list.name}</div>

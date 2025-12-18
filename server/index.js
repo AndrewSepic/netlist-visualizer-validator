@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
-import { NetList, User } from './models/NetList.js';
+import { User } from './models/NetList.js';
 import netlistRoutes from './routes/netlists.js';
 
 const app = express();
@@ -20,6 +20,7 @@ mongoose.connect(MONGO_URI)
     console.error('MongoDB connection error:', error);
     process.exit(1);
   });
+
 
 // Seed users for Demo purposes
 async function seedUsers() {
@@ -56,7 +57,6 @@ app.get("/health", (req, res) => {
 app.get("/api/users", async (req, res) => {
   try {
     const users = await User.find().select('_id username email');
-	console.log("users are", users)
     res.json(users);
   } catch (error) {
     res.status(500).json({ error: error.message });

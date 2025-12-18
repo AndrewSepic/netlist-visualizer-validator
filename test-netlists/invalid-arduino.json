@@ -1,0 +1,32 @@
+{
+  "name": "Invalid Circuit",
+  "components": [
+    {
+      "id": "U1",
+      "name": "Arduino",
+      "type": "microcontroller",
+      "pins": [
+        {"id": "1", "name": "VCC"},
+        {"id": "2", "name": "GND"}
+      ]
+    },
+    {
+      "id": "LED1",
+      "name": "LED",
+      "type": "LED",
+      "pins": [
+        {"id": "1", "name": "Anode"},
+        {"id": "2", "name": "Cathode"}
+      ]
+    }
+  ],
+  "nets": [
+    {
+      "id": "VCC",
+      "name": "Power",
+      "connections": [
+        {"componentId": "U1", "pinId": "1"}
+      ]
+    }
+  ]
+}

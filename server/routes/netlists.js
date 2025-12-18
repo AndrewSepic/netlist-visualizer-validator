@@ -1,9 +1,10 @@
 import express from 'express';
 import { NetList } from '../models/NetList.js';
+import { validateNetlist } from '../validation/netlistValidator.js';
 
 const router = express.Router();
 
-// Middleware to require and extract userId from X-User-Id header
+// Middleware to Require and extract userId from X-User-Id header
 function requireUser(req, res, next) {
   const userId = req.headers['x-user-id'];
   if (!userId) {
@@ -16,10 +17,26 @@ function requireUser(req, res, next) {
 // Create a new netlist
 router.post("/", requireUser, async (req, res) => {
   try {
-    const netlistData = req.body;
-    netlistData.userId = req.userId;
-    
-    const netlist = new NetList(netlistData);
+	const { name, components, nets } = req.body;
+
+	// Validate before saving!
+	const validation = validateNetlist({name, components, nets});
+
+	if(!validation.isValid) {
+		return res.status(400).json({
+			success: false,
+			errors: validation.errors
+		});
+	}
+
+	// If validation passes, proceed to save
+    const netlist = new NetList({
+		userId: req.userId,
+		name,
+		components,
+		nets
+	});
+
     const savedNetlist = await netlist.save();
     res.status(201).json(savedNetlist);
   } catch (error) {
