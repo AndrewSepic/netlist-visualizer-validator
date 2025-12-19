@@ -16,6 +16,7 @@ services:
       - "3000:3000"
     volumes:
       - ./server:/app
+      - /app/node_modules
     environment:
       - MONGO_URI=mongodb://mongo:27017/netlists
     depends_on:
